@@ -40,27 +40,93 @@
         input2 сделайте, в случае ошибки, #input2Error видимым.
         */
         let input1 = document.querySelector("#input1");
-        let input3 = document.querySelector("#input2");
+        let input2 = document.querySelector("#input2");
+
+        let err1=document.querySelector("#input1Error");
+        let err2=document.querySelector("#input2Error");
 
         let addBtn = document.querySelector("#add-btn");
         let remBtn = document.querySelector("#rem-btn");
         let mulBtn = document.querySelector("#mul-btn");
         let divBtn = document.querySelector("#div-btn");
 
+        let resetBtn = document.querySelector("#reset-btn");
+
+        resetBtn.onclick=resetData;
+
+        function resetData()
+        {
+            input1.value=0;
+            input2.value=0;
+            hideErrors();
+        }
+
+        function hideErrors()
+        {
+            if(input1.value!=="")
+            {
+                err1.style.display="none";
+                input1.style.borderColor=""
+            }
+
+            if(input2.value!=="")
+            {
+                err2.style.display="none";
+                input2.style.borderColor=""
+            }
+        }
+
+        function checkData()
+        {
+            let result=true;
+            console.dir(input2.style);
+            if(input1.value==="")
+            {
+                err1.style.display="block";
+                input1.style.borderColor="red";
+                result=false;
+            }           
+
+            if(input2.value==="")
+            {
+                err2.style.display="block";
+                input2.style.borderColor="red";
+                result=false;
+            }
+           
+            hideErrors();
+            return result;
+        }
+
+     
+
         addBtn.addEventListener("click", function () {
-            alert(Number(input1.value) + Number(input2.value));
+            if(checkData())
+            {
+                alert(Number(input1.value) + Number(input2.value));
+            }
+            
         });
 
         remBtn.addEventListener("click", function () {
-            alert(input1.value - input2.value);
+            if(checkData())
+            {
+                alert(input1.value - input2.value);
+            }
         });
 
         mulBtn.addEventListener("click", function () {
-            alert(input1.value * input2.value);
+            if(checkData())
+            {
+               alert(input1.value * input2.value);
+            }
         });
 
         divBtn.addEventListener("click", function () {
-            alert(input1.value / input2.value);
+            if(checkData())
+            {
+                alert(input1.value / input2.value);
+            }
         });
     </script>
 </body>
