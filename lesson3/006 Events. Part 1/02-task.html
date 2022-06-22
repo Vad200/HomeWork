@@ -6,9 +6,23 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Task 02</title>
+
+    <style>      
+        span{
+            width: 130px;
+            display: inline-block;
+
+        }
+    </style>
 </head>
 
 <body>
+
+    <span>Радиус цилиндра:</span><input id="cylRadius" type="text"><br>
+    <span>Высота цилиндра:</span><input id="cylHeight" type="text"><br>
+    <button id="calc">Рассчитать</button>
+    <div >Объем цилиндра = <span id="cylValue"></span></div>
+
     <script>
         /*
         Задание:
@@ -17,6 +31,20 @@
         Разместите на странице два поля ввода - первое для радиуса цилиндра, второе для высоты цилиндра.
         Объем цилиндра выведите в тело страницы.
         */
+
+        let btn=document.getElementById("calc");
+        btn.onclick=calcValue;
+        function calcValue() 
+        {
+            let radius = document.querySelector("#cylRadius");
+            let height = document.querySelector("#cylHeight");
+            let result = document.querySelector("#cylValue");
+
+            let value = Math.PI * (+radius.value * +radius.value) * +height.value;
+
+            result.innerHTML=value;          
+        }
+
     </script>
 </body>
 
