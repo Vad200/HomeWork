@@ -10,13 +10,15 @@
 
 <body>
     <ul id="list">
-        <li>Яблого</li>
+        <li>Яблоко</li>
         <li>Груша</li>
         <li>Апельсин</li>
         <li>Мандарин</li>
         <li>Ананас</li>
         <li>Слива</li>
     </ul>
+
+    <button id="sortBtn">Сортировать список</button>
 
     <script>
         /*
@@ -28,7 +30,7 @@
 
         let items = document.querySelectorAll("li"); // получаем объект NodeList (это не массив)
         let itemsArray = Array.from(items); // на основе NodeList создаем массив
-        
+
         // выполняем сортировку с помощью стандартного метода массива
         // так как сортируются узлы DOM нужно определить критерии, по которым узлы будут сравниваться
         // функция, указанная в параметре метода sort определяет логику сравнения двух элементов в массиве. Она должна возвращать значение:
@@ -36,19 +38,25 @@
         // если a > b возвращать значение больше 0
         // если a == b возвращать 0
 
-        itemsArray.sort(function (a, b) {
-            if (a.textContent < b.textContent)
-                return -1;
-            if (a.textContent > b.textContent)
-                return 1;
-            return 0;
-        });
+        function sortList() {
 
-        // добавление элементов в алфавитном порядке
-        // так как элементы уже есть в DOM дереве, то при добавлении элемент удаляется со своей предыдущей позиции
-        itemsArray.forEach(item => {
-            list.append(item);
-        });
+            itemsArray.sort(function (a, b) {
+                if (a.textContent < b.textContent)
+                    return -1;
+                if (a.textContent > b.textContent)
+                    return 1;
+                return 0;
+            });
+
+            // добавление элементов в алфавитном порядке
+            // так как элементы уже есть в DOM дереве, то при добавлении элемент удаляется со своей предыдущей позиции
+            itemsArray.forEach(item => {
+                list.append(item);
+            });
+        }
+
+        let btn=document.getElementById("sortBtn");
+        btn.onclick=sortList;
 
 
     </script>

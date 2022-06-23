@@ -98,10 +98,20 @@
             let p = document.createElement("p");
             p.innerText = text;
 
+            let delBtn=document.createElement("button");
+            delBtn.innerText="Удалить";
+            delBtn.onclick=removeTask;
+
             div.append(input);
             div.append(p);
+            div.append(delBtn);
 
             return div;
+        }
+
+        function removeTask()
+        {
+            this.parentElement.remove();
         }
 
         function changeTaskState() {
