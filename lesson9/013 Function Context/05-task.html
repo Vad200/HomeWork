@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task 05</title>
+</head>
+
+<body>
+
+    <button id="startBtn">Давайте сыграем в игру...</button>
+    <button id="resetBtn">Завершить игру</button>
+    <br><br>
+    <div>Время игры: <span id="timerOutput">0</span> сек</div>
+    <br>
+    <label for="name">Введите число от 1 до 100:</label>
+    <input type="number" id="userValue" name="name" min="1" max="100">
+    <button id="checkBtn">Проверить</button>
+
+    
+    <div id="outMessage"></div>
+
+    <script>
+        /*
+        Задание:
+        Напишите сценарии "Игра 'Угадай число'". Суть игры - угадать за меньшее количество попыток число, которое загадал сценарий.
+        Каждый раз, когда игрок пытается угадать число, сценарий выводит подсказку - меньшее или большее число было загадано сценарием.
+        Сценарий загадывает число только один раз в начале игры и это число не меняется до завершения игры.
+        При завершении игры выведите пользователю информацию о том, с какой попытки угадано значение и сколько было потрачено на это времени.
+
+        Для генерации случайного числа используйте следующий код:
+        let randomValue = Math.floor(Math.random() * 101); // случайное значение от 0 до 100 будет записано в переменную randomValue
+        
+        Пример игры:
+        Сценарий: я загадал случайное значение от 0 до 100
+        Пользователь: 50
+        Сценарий: я загадал значение больше, чем 50
+        Пользователь: 75
+        Сценарий: я загадал значение меньше, чем 75
+        Пользователь: 62
+        Сценарий: я загадал значение меньше, чем 62
+        Пользователь: 56
+        Сценарий: Правильно! Загаданное значение 56. Вы угадали с 4й попытки за 10 сек.
+        */
+
+
+        class Timer {
+            constructor(selector, interval) {
+                this.element = document.querySelector(selector);
+                this.interval = interval;
+                this.value = 0;
+                this.timerId = null;
+            }
+
+            start() {
+                if (!this.timerId)
+                    this.timerId = setInterval(() => this.tick(), this.interval);
+            }
+
+            stop() {
+                if (this.timerId) {
+                    clearInterval(this.timerId);
+                    this.timerId = null
+                }
+            }
+
+            tick() {
+                // console.log(this);
+                this.value++;
+                this.showValue();
+            }
+
+            reset() {
+                this.value = 0;
+            }
+
+            showValue() {
+                this.element.textContent = this.value;
+            }
+        }
+
+
+        class Play {
+            constructor(timer) {
+                this.randomValue = 0;
+                this.tryCount = 0;
+                this.timer = timer;
+                this.element = document.querySelector("#outMessage");
+                this.isPlay=false;
+                // console.log(this.element);
+            }
+
+            generateValue()
+            {
+                this.randomValue = Math.floor(Math.random() * 101);
+            }
+
+            start()
+            {
+                this.generateValue();
+                this.tryCount=0;
+                this.isPlay=true;
+
+                this.timer.reset(); 
+                this.timer.start();                
+                
+            }
+
+            userAttempt(userValue) {
+                this.tryCount++;
+                if (this.randomValue > userValue) {
+                    this.showMessage("Я загадал число больше, чем " + userValue);
+                }
+
+                if (this.randomValue < userValue) {
+                    this.showMessage("Я загадал число меньше, чем " + userValue);
+                }
+
+                if (this.randomValue == userValue) {
+                    this.showMessage(`Правильно! Загаданное значение ${userValue} Вы угадали с ${this.tryCount}й попытки за ${this.timer.value} сек.`);
+                    this.timer.stop();
+                    this.isPlay=false;
+                }
+            }
+
+            attempt()
+            {
+                if(this.isPlay)
+                {
+                    let value=document.querySelector("#userValue").value;
+                    this.userAttempt(+value);
+                }
+                else
+                {
+                    alert("Игра не началась...");
+                }
+                
+            }
+
+            showMessage(message) {
+                this.element.innerHTML += "<br />"+message;
+                console.log(message);
+            }
+
+
+            endGame()
+            {
+                this.timer.stop();
+                this.timer.reset();       
+                this.timer.showValue();
+                this.isPlay=false;
+            }
+            
+        }
+
+
+        let timer = new Timer("#timerOutput", 1000);
+        let play = new Play(timer);
+
+        document.querySelector("#startBtn").addEventListener("click", function () {            
+            play.start();
+        });
+
+        document.querySelector("#checkBtn").addEventListener("click", function () {            
+            play.attempt();
+        });
+
+        document.querySelector("#resetBtn").addEventListener("click", function () {
+            play.endGame();
+        });
+
+       
+        
+       
+    </script>
+</body>
+
+</html>
