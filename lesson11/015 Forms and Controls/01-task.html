@@ -45,7 +45,19 @@
         Задание:
         При нажатии на кнопку "Отобразить значения", используя цикл for, выведите значения всех элементов управления input (кроме input type=button), на консоль.
         */
+
+        document.forms[0].addEventListener("click",e=>{            
+            if(e.target.type=="button")
+            {
+                for(let i=0;i<document.forms[0].length-1;i++)
+                {
+                    console.log(document.forms[0][i].value);            
+                }                
+            }
+        });
+
+        console.log(document.forms[0]);
     </script>
-</body>
+</body> 
 
 </html>
