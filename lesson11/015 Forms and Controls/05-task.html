@@ -84,6 +84,8 @@
             <input type="number" name="age" id="age">
         </div>
         <input type="button" value="Save" id="saveButton">
+        <input type="reset" value="Reset" id="resetButton">
+        <input type="button" value="Delete" id="deleteButton">
     </form>
     <script>
         /*
@@ -218,8 +220,14 @@
 
             select(id) {
                 this.selectedData = this.data[id];
-                this.deselectAll();
-                this.listElement.children[id].classList.add("selected");
+                this.deselectAll();                
+                for(let i=0;i<this.listElement.children.length;i++)
+                {
+                    if(this.listElement.children[i].dataset.index==id)
+                    {
+                        this.listElement.children[i].classList.add("selected");
+                    }
+                }
             }
 
             deselectAll() {
@@ -258,10 +266,12 @@
                 this.currentUser.email = this.form.email.value;
                 this.currentUser.age = this.form.age.value;
             }
+            
         }
 
         let userList = document.querySelector("#userList");
         let saveButton = document.querySelector("#saveButton");
+        let deleteButton = document.querySelector("#deleteButton");
 
         let listService = new ListService(users, userList, x => x.name.first + " " + x.name.last);
         let formService = new UserFormService(document.forms[0]);
@@ -277,6 +287,15 @@
         saveButton.addEventListener("click", function () {
             formService.saveForm();
         });
+
+
+        deleteButton.addEventListener("click",e=>{            
+            let selectedLi=document.querySelector(".selected");            
+            selectedLi.remove();
+            document.forms[0].reset();
+        });
+
+        // console.log(users);
     </script>
 </body>
 
