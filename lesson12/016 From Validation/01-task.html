@@ -15,6 +15,10 @@
             width: 75px;
             display: inline-block;
         }
+
+        .hint{
+            display: none;
+        }
     </style>
 </head>
 
@@ -42,7 +46,34 @@
         информацию, которую ввел пользователь в поля login и password.
         2. В момент, когда поле ввода login получает фокус, покажите подсказку, которая находится в span#loginHint
            В момент, когда фокус получает поле ввода password - подсказку span#passwordHint
-        */
+        */ 
+
+        let form=document.forms[0];  
+        let logHint=document.getElementById("loginHint");
+        let passHint=document.getElementById("passwordHint");
+
+        form.addEventListener("submit",e=>{
+            e.preventDefault();
+            alert(`login=${form.elements.login.value}  pass=${form.elements.password.value}`);
+        });
+
+
+        form.elements.login.addEventListener("focus",()=>{
+            logHint.classList.remove("hint");
+        });
+
+        form.elements.login.addEventListener("blur",()=>{
+            logHint.classList.add("hint");
+        });
+
+        form.elements.password.addEventListener("focus",()=>{
+            passHint.classList.remove("hint");
+        });
+
+        form.elements.password.addEventListener("blur",()=>{
+            passHint.classList.add("hint");
+        });
+
     </script>
 </body>
 
