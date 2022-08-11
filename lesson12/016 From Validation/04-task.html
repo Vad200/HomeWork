@@ -60,29 +60,29 @@
     <form id="output">
         <div class="form-group">
             <label for="firstName">Имя</label>
-            <input type="text" name="firstName" id="firstName">
+            <input type="text" name="firstName" id="firstName" required>
         </div>
         <div class="form-group">
             <label for="lastName">Фамилия</label>
-            <input type="text" name="lastName" id="lastName">
+            <input type="text" name="lastName" id="lastName" required>
         </div>
         <div class="form-group">
             <label for="companyName">Компания</label>
-            <input type="text" name="companyName" id="companyName">
+            <input type="text" name="companyName" id="companyName" required>
         </div>
         <div class="form-group">
             <label for="balance">Баланс</label>
-            <input type="number" name="balance" id="balance">
+            <input type="number" name="balance" id="balance" required min="1000.01" step="0.01">
         </div>
         <div class="form-group">
             <label for="email">Email</label>
-            <input type="text" name="email" id="email">
+            <input type="email" name="email" id="email" required>
         </div>
         <div class="form-group">
             <label for="age">Возраст</label>
-            <input type="number" name="age" id="age">
+            <input type="number" name="age" id="age" required min="19">
         </div>
-        <input type="button" value="Save" id="saveButton">
+        <input type="submit" value="Save" id="saveButton">
         <input type="reset" value="Reset">
         <input type="button" value="Delete" id="deleteButton">
     </form>
@@ -289,7 +289,8 @@
         let deleteButton = document.querySelector("#deleteButton");
 
         let listService = new ListService(users, userList, x => x.name.first + " " + x.name.last);
-        let formService = new UserFormService(document.forms[0]);
+        const form = document.forms[0];
+        let formService = new UserFormService(form);
 
         userList.addEventListener("click", function (e) {
             if (e.target.tagName != "LI") return;
@@ -308,6 +309,16 @@
             listService.deleteSelectedItem();
             formService.resetForm();
         });
+
+
+        form.addEventListener("submit", function (e) {
+            e.preventDefault();
+            let invalidElements = document.querySelectorAll(".invalid");
+            if (invalidElements.length == 0) {
+                alert("Форма отправлена");
+            }            
+        });
+
     </script>
 </body>
 
