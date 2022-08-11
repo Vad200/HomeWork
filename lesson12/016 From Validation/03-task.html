@@ -22,15 +22,17 @@
         /* :valid - псевдокласс находит элементы, которые прошли валидацию */
         input:valid {
             border: 1px solid green;
+            background-color: white;
         }
 
         /* :invalid - псевдокласс находит элементы, которые не прошли валидацию */
         input:invalid {
             border: 1px solid red;
+            background-color: bisque;
         }
     </style>
 </head>
-
+ 
 <body>
     <form>
         <div class="form-group">
@@ -66,6 +68,8 @@
     <script>
         const form = document.forms[0];
 
+        
+
         form.addEventListener("submit", function (e) {
             alert("Форма отправлена");
         });
@@ -81,7 +85,32 @@
             }
         });
 
-        /*
+        let email=document.forms[0].emailInput;
+        email.addEventListener("input",e=>{            
+            console.dir(email.value);
+            console.log(isEmailCorrect(email.value));
+            email.classList.remove("valid");
+            email.classList.remove("invalid");
+            if(isEmailCorrect(email.value))
+            {
+                email.classList.add("valid");
+                email.setCustomValidity("");
+            }
+            else
+            {
+                email.classList.add("invalid");
+                email.setCustomValidity("Вы указали запрещенный email!");
+            }
+        });
+
+
+        function isEmailCorrect(email)
+        {
+            return !/(admin@example.com|superuser@example.com|user@example.com)/.test(email);
+        }
+        
+
+        /* 
         Задание:
         Доработайте валидацию формы. Поле ввода Email не должно содержать значения
         admin@example.com, superuser@example.com и user@example.com
