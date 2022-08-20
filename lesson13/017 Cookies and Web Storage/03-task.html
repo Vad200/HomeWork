@@ -16,6 +16,15 @@
             width: 75px;
             display: inline-block;
         }
+        .btnAdd
+        {
+            width: 200px;
+            height: 30px;
+            margin: 3px;
+            border-radius: 5px;
+            background-color: green;
+            color: white;
+        }
     </style>
 </head>
 
@@ -48,6 +57,17 @@
         </div>
     </form>
 
+    <div >
+        <button class="btnAdd" id="viewAll">Показать все</button>
+    </div>
+    <div>
+        <button class="btnAdd" id="clearStorage">Очистить localStorage</button>
+    </div>
+    
+    <ul id="resultList">
+
+    </ul>
+
     <script>
         /*
         Задание:
@@ -56,6 +76,26 @@
         
         Добавьте на страницу кнопку "Очистить localStorage". При нажатии на кнопку localStorage должен быть очищен.
         */
+
+        
+        let resultList=document.getElementById("resultList");
+        document.getElementById("viewAll").onclick=function()
+        {
+            resultList.innerText="";
+            for (let i = 0; i < localStorage.length; i++) 
+            {
+                let key = localStorage.key(i); 
+                let li=document.createElement("li");
+                li.innerText=`${key} = ${localStorage.getItem(key)}`;
+                resultList.appendChild(li);               
+            }
+        }
+
+        document.getElementById("clearStorage").onclick=function()
+        {
+            localStorage.clear();
+        }
+
         document.forms.writeForm.addEventListener("submit", function (e) {
             e.preventDefault();
             const form = document.forms.writeForm;
