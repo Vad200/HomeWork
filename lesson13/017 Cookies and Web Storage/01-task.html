@@ -24,13 +24,13 @@
             Добавьте восстановление выбранного цвета из cookies, если они есть, после загрузки документа.
         */
 
-        function setColor()
+        window.onload=function()
         {
             let color=getCookie("background-color");
             document.body.style.backgroundColor = color;
         }
 
-        setColor();
+        
 
         function getCookie(name) {
             let cookie = document.cookie; 

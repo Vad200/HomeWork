@@ -9,13 +9,47 @@
 </head>
 
 <body>
-    <textarea rows="10" cols="30"></textarea>
+    <textarea id="text-data" rows="10" cols="30"></textarea>
     <script>
+        
         /*
         Задание:
         Сделайте так чтобы значение, введенное в поле ввода на данной странице, сохранялось при каждом изменении.
         Когда пользователь повторно зайдет на эту страницу, поле ввода должно содержать последнее введенное значение.
         */
+        let text=document.getElementById("text-data");
+        text.addEventListener("input",function(){            
+            document.cookie="user-text="+text.value;
+        });
+
+        function getCookie(name) {
+            let cookie = document.cookie; 
+            let pos = cookie.indexOf(name + "=");
+
+            // Если cookie с указанным именем найден, извлечь его значения.
+            if (pos != -1) {
+                let start = pos + name.length + 1;
+                let end = cookie.indexOf(";", start);
+
+                if (end == -1) {
+                    end = cookie.length;
+                }
+
+                // substring - вырезать значения из строки по индексам указанным в параметрах
+                let value = cookie.substring(start, end);
+
+                return decodeURIComponent(value);
+            }
+        }
+
+        window.onload=function()
+        {
+            let userText=getCookie("user-text");
+            if(userText)
+            {
+                text.value=userText;
+            }
+        }
     </script>
 </body>
 
