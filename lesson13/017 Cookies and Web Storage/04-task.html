@@ -87,7 +87,7 @@
         <input type="button" value="Delete" id="deleteButton">
     </form>
     <script>
-        /*
+        /* 
             Задание:
             Сделайте так, чтобы изменения, сделанные для массива users, сохранялись и были доступны
             даже после закрытия и повторного открытия браузера.
@@ -269,6 +269,8 @@
                 this.currentUser.balance = this.form.balance.value;
                 this.currentUser.email = this.form.email.value;
                 this.currentUser.age = this.form.age.value;
+                let usersString=JSON.stringify(users);
+                localStorage.setItem("users",usersString);
             }
 
             // очистка формы
@@ -280,6 +282,14 @@
         let userList = document.querySelector("#userList");
         let saveButton = document.querySelector("#saveButton");
         let deleteButton = document.querySelector("#deleteButton");
+
+
+        let localStorageUsers=localStorage.getItem("users");
+        let storageUsers=JSON.parse(localStorageUsers);
+        if(storageUsers)
+        {
+            users=storageUsers;
+        }
 
         let listService = new ListService(users, userList, x => x.name.first + " " + x.name.last);
         let formService = new UserFormService(document.forms[0]);
