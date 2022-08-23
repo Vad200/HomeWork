@@ -16,8 +16,9 @@
         */
         class Rect {
             constructor(width, height) {
-                this.width = width;
                 this.height = height;
+                this.width = width;
+
             }
 
             get width() {
@@ -59,7 +60,13 @@
 
         let r1 = new Rect(10, 20);
 
-        r1.height = -10; // ошибка
+        try {
+            r1.height = -10; // ошибка
+        }
+        catch {
+            r1.height = 10;
+        }
+        
         r1.width = 30;
 
         console.log("width " + r1.width);
