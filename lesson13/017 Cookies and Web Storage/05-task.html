@@ -84,7 +84,8 @@
         */
 
         class Task {
-            constructor(text) {
+            constructor(text, id) {
+                this.id = id;
                 this.text = text;
                 this.isDone = false;
             }
@@ -92,6 +93,7 @@
 
         let dataService = {
             tasks: [],
+            currentId: 0,
 
             get allTasks() {
                 return this.tasks;
@@ -112,7 +114,17 @@
 
             open() {
                 this.tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+                if (this.tasks.length > 0) {
+                    this.currentId = Math.max.apply(Math, this.tasks.map(function (o) { return o.id; }));
+                }
+            },
+
+            delete(id)
+            {
+                console.log(this.tasks);
+                this.tasks=this.tasks.filter(item=>{return item.id!=id});               
             }
+
         }
 
         class TasksListView {
@@ -165,6 +177,8 @@
                 this.div = document.createElement("div");
                 this.div.classList.add("task");
 
+                this.div.dataset.id = this.task.id;
+
                 let input = document.createElement("input");
                 input.addEventListener("click", this.changeState.bind(this));
                 input.type = "checkbox";
@@ -179,6 +193,18 @@
                     this.div.classList.add("completed");
                     input.checked = true;
                 }
+
+                let btn = document.createElement("button");
+                btn.textContent = "Удалить";
+                btn.style.marginLeft = "320px";
+
+                btn.addEventListener("click", function () {                    
+                    dataService.delete(this.parentElement.dataset.id);
+                    dataService.save();    
+                    document.querySelector(".task-list").removeChild(this.parentElement );                    
+                });
+
+                this.div.append(btn);
                 element.append(this.div);
             }
 
@@ -187,6 +213,7 @@
                 dataService.save();
                 this.div.classList.toggle("completed");
             }
+
         }
 
         let taskNameInput = document.querySelector("#task-name-input");
@@ -195,6 +222,9 @@
         let showAllButton = document.querySelector("#show-all-btn");
         let showNotCompletedButton = document.querySelector("#show-not-completed-btn");
         let taskList = document.querySelector(".task-list");
+
+        // Нужно получать ID из local storage
+        // let currentId=0;
 
         dataService.open();
         let tasksListView = new TasksListView(taskList);
@@ -215,7 +245,7 @@
             if (taskNameInput.value) {
                 if (!startMessage.hidden) startMessage.hidden = true;
 
-                let newTask = new Task(taskNameInput.value);
+                let newTask = new Task(taskNameInput.value, ++dataService.currentId);
                 dataService.add(newTask);
                 tasksListView.drawAll();
 
