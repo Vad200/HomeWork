@@ -17,8 +17,25 @@
         Добавьте код, обрабатывающий исключение.
         */
 
+        class DivideByZeroError extends Error
+        {
+            constructor(message)
+            {
+                super(message);
+                this.name="DivideByZeroError";
+            }
+        }
+
         function divide(operand1, operand2) {
-            return operand1 / operand2;
+            if(operand2==0)
+            {
+                throw new DivideByZeroError("Ошибка деления на ноль!");
+            }
+            else
+            {
+                return operand1 / operand2;
+            }            
+            
         }
 
         console.log(divide(10, 5));
