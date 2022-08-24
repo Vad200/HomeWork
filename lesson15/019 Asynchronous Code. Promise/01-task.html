@@ -36,6 +36,17 @@
                     error(new Error("Не удалось загрузить изображение " + this.src));
             }
         }
+
+        let btn=document.querySelector("button");
+        let output=document.getElementById("output");        
+
+        let url="https://images-assets.nasa.gov/image/PIA16239/PIA16239~orig.jpg";
+
+        btn.addEventListener("click",function(){
+            let image=downloadImage(url,img=>output.append(img),e => console.log(e.message));            
+        });
+        
+
     </script>
 </body>
 
