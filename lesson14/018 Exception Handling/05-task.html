@@ -17,9 +17,16 @@
         */
 
         function operation() {
-            console.log("Выделение ресурсов");
-            return "Результат операции";
-            console.log("Освобождение ресурсов");
+            try {
+                console.log("Выделение ресурсов");
+                return "Результат операции";
+            }
+            catch {
+            }
+            finally {
+                console.log("Освобождение ресурсов");
+            }
+
         }
 
         operation();
