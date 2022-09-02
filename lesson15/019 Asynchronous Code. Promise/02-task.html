@@ -22,26 +22,25 @@
         через alert
         */
 
-        function asyncOperation() {
-            return new Promise(function (resolve, reject) {
+
+        function asyncOperation(success) {
+            setTimeout(function () {
                 let result = Math.floor(Math.random() * 5001);
-                
-                if(result>0)
-                {
-                    setTimeout(()=>resolve(result),2000);
-                }
-                else
-                {
-                    reject(new Error("Ошибка!"));
-                }
-            });            
+                success(result);
+            }, 2000);
         }
 
         let btn=document.querySelector("button");
         
+        function viewResult(data)
+        {
+            alert(data);
+        }
+
         btn.addEventListener("click",function(){
-            asyncOperation().then(r=> alert(r));         
+            asyncOperation(viewResult); 
         });
+      
 
     </script>
 </body>
