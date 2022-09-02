@@ -21,9 +21,26 @@
         function download() {
             return new Promise(function (resolve, reject) {
                 let random = Math.floor(Math.random() * 5001);
+                console.log("start "+random);
                 setTimeout(() => resolve("downloaded data"), random);
             });
         }
+
+
+        let btn=document.querySelector("button");
+
+        btn.addEventListener("click",function(){
+            let promices=[
+                download(),
+                download(),
+                download(),
+                download(),
+                download()
+            ];
+           
+            Promise.all(promices).then(()=> console.log("Все файлы скачаны"));
+        }
+        )
     </script>
 </body>
 
