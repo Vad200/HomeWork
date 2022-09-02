@@ -35,7 +35,8 @@
                 })
                 .then(image => {
                     document.body.append(image);
-                });
+                })
+                .catch(error => console.error(error.message)); 
 
         });
 
