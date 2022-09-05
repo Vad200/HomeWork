@@ -9,12 +9,50 @@
 </head>
 
 <body>
+    <button id="load-photos">load 100 photos</button>
+    <div id="images">Images</div>
     <script>
         /*
         Задание:
         Напишите сценарий, который при загрузке страницы выполнит GET запрос на https://jsonplaceholder.typicode.com/photos
         и выведет на странице все изображения в виде <img>, которые будут получены в ответе.
         */
+
+        let url = "https://jsonplaceholder.typicode.com/photos";
+        let btn = document.getElementById("load-photos");
+        let imgDiv=document.getElementById("images");
+        let imageList;
+        let currentPosition = 0;
+        let maxPhoto=0;
+
+        // Загрузку данных сделал при загрузке страницы, вывод картинок по кнопке, порциями по 100 штук,
+        // т.к. 5000 фото сильно жрут оперативную память
+        window.onload = function () {
+            fetch(url)
+                .then(response => response.json())
+                .then(json => {
+                    imageList = json;
+                    maxPhoto=imageList.length;                    
+                });
+        };
+
+        btn.addEventListener("click", function () {
+            renderImages(100);
+        });
+
+
+        function renderImages(portion) 
+        {
+            let maxElement=(currentPosition+portion)>maxPhoto?maxPhoto:currentPosition+portion;
+            for (currentPosition; currentPosition < maxElement; currentPosition++) 
+            {
+                let image = new Image();
+                image.src = imageList[currentPosition].url;
+                imgDiv.append(image);
+            }     
+               
+                
+        }
     </script>
 </body>
 
