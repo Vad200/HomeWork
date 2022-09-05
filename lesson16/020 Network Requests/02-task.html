@@ -6,9 +6,36 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Task 02</title>
+    <style>
+        div{
+            width: 400px;
+        }
+
+        input{
+            width: 100%;
+        }
+
+        .inp-name{            
+            font-weight: bold;
+        }
+    </style>
 </head>
 
 <body>
+
+    <div>
+        <div class="inp-name">title:</div> 
+        <input id="obj-title" type="text">
+    </div>
+    
+    <div>
+        <div class="inp-name">body: </div> 
+        <input id="obj-body" type="text">
+    </div>
+
+    <button id="get-obj">get object</button>
+    <button id="upd-obj">update object</button>
+
     <script>
         /*
         Задание:
@@ -30,6 +57,45 @@
         для обновления сущности воспользуйтесь PUT запросом https://jsonplaceholder.typicode.com/posts/1. Обработайте ответ
         и выведите информацию о ошибке или об успешно завершенной операции.
         */
+
+        let url = "https://jsonplaceholder.typicode.com/posts/1";
+        let getBtn=document.getElementById("get-obj");
+        let updBtn=document.getElementById("upd-obj");
+
+        let name=document.getElementById("obj-title");
+        let body=document.getElementById("obj-body");
+
+        // console.log(body);
+
+        getBtn.addEventListener("click",function(){
+            fetch(url)
+            .then(response=>response.json())
+            .then(json=>{
+                console.log(json);
+                body.value=json.body;
+                name.value=json.title;
+            });
+        });
+
+
+        updBtn.addEventListener("click",function(){
+            
+            fetch(url, {
+                method: 'PUT',
+                body: JSON.stringify({
+                    userId: 1,  
+                    id: 1,                  
+                    title: name.value,
+                    body: body.value,                    
+                }),
+                headers: {
+                    'Content-type': 'application/json; charset=UTF-8',
+                },
+            })
+                .then((response) => response.json())
+                .then((json) => console.log(json));
+        });
+        
     </script>
 </body>
 
