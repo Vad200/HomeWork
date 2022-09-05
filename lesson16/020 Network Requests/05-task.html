@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Task 04</title>
+    <title>Task 05</title>
     <style>
         * {
             padding: 0;
@@ -95,15 +95,30 @@
             url: "https://jsonplaceholder.typicode.com/todos",
 
             get allTasks() {
+                // return fetch(this.url)
+                //     .then(response => response.json())
+                //     .then(json => this.mapArray(json));
                 return fetch(this.url)
-                    .then(response => response.json())
-                    .then(json => this.mapArray(json));
+                    .then(response => {
+                        if (response.ok) {
+                            return response.json().then(json => this.mapArray(json));
+                        }
+                    }
+                    ).catch(error => console.log("Ошибка:" + error.message));
             },
 
             get notCompletedTasks() {
+                // return fetch(this.url + "?completed=false")
+                //     .then(response => response.json())
+                //     .then(json => this.mapArray(json));
+
                 return fetch(this.url + "?completed=false")
-                    .then(response => response.json())
-                    .then(json => this.mapArray(json));
+                    .then(response => {
+                        if (response.ok) {
+                            return response.json().then(json => this.mapArray(json));
+                        }
+                    }
+                    ).catch(error => console.log("Ошибка:" + error.message));
             },
 
             add(task) {
@@ -111,7 +126,12 @@
                     method: "POST",
                     body: JSON.stringify({ title: task.text, completed: task.isDone })
                 })
-                    .then(response => response.json());
+                    .then(response => {
+                        if (response.ok) {
+                            return response.json();
+                        }
+                        })
+                        .catch(error => console.log("Ошибка:" + error.message));
             },
 
             update(task) {
@@ -119,7 +139,12 @@
                     method: "PUT",
                     body: JSON.stringify({ title: task.text, completed: task.isDone })
                 })
-                    .then(response => response.json());
+                .then(response => {
+                        if (response.ok) {
+                            return response.json();
+                        }
+                        })
+                        .catch(error => console.log("Ошибка:" + error.message));
             },
 
             mapArray(array) {
