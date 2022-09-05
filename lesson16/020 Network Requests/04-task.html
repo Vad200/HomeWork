@@ -6,15 +6,52 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Task 04</title>
+    <style>
+        td,th{
+            border: 1px solid black;
+        }
+    </style>
 </head>
 
 <body>
+
+    <button id="load-todos">load todos</button>
+    <div id="table-data"></div>
+    
+
     <script>
         /*
         Задание:
         Напишите сценарий, который выполняет GET запрос по адресу https://jsonplaceholder.typicode.com/todos
         И выводит содержимое ответа в виде таблицы.
         */
+
+        let btn = document.getElementById("load-todos");
+        let divTable = document.getElementById("table-data");
+        let url = "https://jsonplaceholder.typicode.com/todos";
+        let todoList;
+
+        btn.addEventListener("click", function () {
+            fetch(url)
+                .then(response => response.json())
+                .then(json => {
+                    todoList = json;                    
+                    createDataTable();
+                });
+        });
+
+        function createDataTable() {
+            let table = document.createElement("table");
+            let header = table.createTHead();
+            header.innerHTML="<th>id</th><th>title</th><th>userId</th><th>completed</th>";                        
+            for (let i = 0; i < todoList.length; i++) {
+                let row = table.insertRow();
+                row.innerHTML = `<td>${todoList[i].id}</td><td>${todoList[i].title}</td><td>${todoList[i].userId}</td><td>${todoList[i].completed}</td>`;
+
+            }            
+            divTable.append(table);
+        }
+
     </script>
 </body>
 
