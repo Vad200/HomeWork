@@ -15,22 +15,28 @@
         /*
         Задание:
         Добавьте обработку статус кодов ошибок на стороне сервера и на стороне клиента
-        для сетевого запроса, который выполняется при нажатии на кнопку "Запрос" 
+        для сетевого запроса, который выполняется при нажатии на кнопку "Запрос"  
         */
         let button1 = document.querySelector("#button1");
         let output = document.querySelector("#output");
-        let url = "https://jsonplaceholder.typicode.com/todos/100000";
+        let url = "https://jsonplaceholder.typicode.com/todos/1000";
 
         button1.addEventListener("click", function () {
             fetch(url)
-                .then(response => response.json())  
-                .then(json => {
+                .then(response => {                   
+                    if (!response.ok) {
+                        alert(response.status);
+                    }
+                    return response.json();
+                })
+                .then(json => {                   
                     output.innerHTML = "";
                     output.innerHTML += "<br>id: " + json.id;
                     output.innerHTML += "<br>user id: " + json.userId;
                     output.innerHTML += "<br>title: " + json.title;
                     output.innerHTML += "<br>completed: " + json.completed;
-                });
+                })
+                .catch(error => console.log("Ошибка:" + error.message));
         });
     </script>
 </body>
